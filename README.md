@@ -10,6 +10,13 @@ In this repository, [main.tf](main.tf) creates the following
 - A private connection profile to be used by Datastream to connect to our VPC network
 - A compute instance where a SQL Proxy is deployed to bridge the traffic between Datastream and Cloud SQL. Because connecting to Cloud SQL from Datastream is not possible
 
+Before connecting datastream, create a user specifically for datastream on MySQL
+```
+CREATE USER 'datastream'@'%' IDENTIFIED BY '<replace with your password>';
+GRANT REPLICATION SLAVE, SELECT, RELOAD, REPLICATION CLIENT, LOCK TABLES, EXECUTE ON *.* TO 'datastream'@'%';
+FLUSH PRIVILEGES;
+```
+
 ## Credit
 This [repo](https://github.com/data-max-hq/terraform-datastream-postgres-bq) is where I found a working version of the code with a sql proxy setup.
 Thank you [iglikoxha](https://github.com/iglikoxha) for sharing this!
